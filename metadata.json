@@ -1,0 +1,6 @@
+{
+  "name": "Gestão de Viagens Corporativas",
+  "description": "Landing page profissional de gestão terceirizada de viagens corporativas para pequenas e médias empresas brasileiras.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

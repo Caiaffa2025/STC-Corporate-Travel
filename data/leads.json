@@ -1,0 +1,36 @@
+[
+  {
+    "id": "LEAD-MVVGWII5-5954",
+    "name": "Rodrigo Alves",
+    "company": "Logística Sul",
+    "role": "Gerente de Operações",
+    "email": "rodrigo@logisticasul.com.br",
+    "phone": "(11) 98493-7529",
+    "cityState": "Campinas - SP",
+    "monthlyTrips": "16 a 30",
+    "needs": [
+      "Gestão completa"
+    ],
+    "consent": true,
+    "createdAt": "2026-10-30T21:11:44.813Z",
+    "ip": "127.0.0.1"
+  },
+  {
+    "id": "LEAD-MVVG4MNA-6681",
+    "name": "Juliana Ramos",
+    "company": "Tecnologia Brasil Ltda",
+    "role": "Diretora Financeira",
+    "email": "juliana@tecnologiabrasil.com.br",
+    "phone": "(11) 98765-4321",
+    "cityState": "São Paulo - SP",
+    "monthlyTrips": "6 a 15",
+    "needs": [
+      "Passagens aéreas",
+      "Hospedagens",
+      "Fluxo de aprovações"
+    ],
+    "consent": true,
+    "createdAt": "2026-10-30T20:50:03.814Z",
+    "ip": "127.0.0.1"
+  }
+]
