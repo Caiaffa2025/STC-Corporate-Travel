@@ -3,9 +3,17 @@ import { ArrowRight, Compass, ShieldCheck, UserCheck, Quote, Sparkles } from 'lu
 
 interface HeroProps {
   onOpenLeadForm: () => void;
+  headline?: string;
+  subtitle?: string;
+  manifesto?: string;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenLeadForm }) => {
+export const Hero: React.FC<HeroProps> = ({ 
+  onOpenLeadForm,
+  headline = 'Sua empresa viaja. Nós cuidamos de toda a gestão.',
+  subtitle = 'Tecnologia, organização e gestão especializada para empresas que precisam viajar.',
+  manifesto = 'Assumimos a gestão das viagens corporativas da sua empresa, desde a solicitação até a reserva, administração e controle financeiro. Tudo centralizado em uma plataforma exclusiva PARA CADA EMPRESA, com acompanhamento e transparência.',
+}) => {
   const scrollToSolutions = (e: React.MouseEvent) => {
     e.preventDefault();
     const target = document.querySelector('#diferenciais-stc');
@@ -36,12 +44,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenLeadForm }) => {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight leading-[1.15] text-balance">
-              Sua empresa viaja. Nós cuidamos de toda a gestão.
+              {headline}
             </h1>
 
             {/* Subtítulo com ênfase solicitada */}
             <div className="mt-4 p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 font-semibold text-base sm:text-lg leading-snug">
-              Tecnologia, organização e gestão especializada para empresas que precisam viajar.
+              {subtitle}
             </div>
 
             <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
@@ -59,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenLeadForm }) => {
                 <span className="text-xs text-slate-400 font-mono">Plataforma Exclusiva</span>
               </div>
               <p className="text-base sm:text-lg font-medium leading-relaxed text-slate-100">
-                &ldquo;Assumimos a gestão das viagens corporativas da sua empresa, desde a solicitação até a reserva, administração e controle financeiro. Tudo centralizado em uma <strong className="text-amber-300 font-extrabold underline decoration-amber-400/80 decoration-2 underline-offset-4">plataforma exclusiva PARA CADA EMPRESA</strong>, com acompanhamento e transparência.&rdquo;
+                &ldquo;{manifesto}&rdquo;
               </p>
             </div>
 

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { CommercialDifferentialsSection } from './components/CommercialDifferentialsSection';
+import { CorporateTravelGallerySection } from './components/CorporateTravelGallerySection';
 import { ProblemSection } from './components/ProblemSection';
 import { SolutionsSection } from './components/SolutionsSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
@@ -15,10 +16,27 @@ import { FinalCTASection } from './components/FinalCTASection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PrivacyModal } from './components/PrivacyModal';
+import { AdminEditorModal } from './components/AdminEditorModal';
+import { testConnection } from './lib/firebase';
+import { getLandingConfig, LandingPageData, INITIAL_LANDING_DATA } from './lib/dbService';
 
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [landingConfig, setLandingConfig] = useState<LandingPageData>(INITIAL_LANDING_DATA);
+
+  useEffect(() => {
+    // 1. Testa a conexão com o banco Firestore
+    testConnection();
+
+    // 2. Carrega configurações salvas no banco de dados
+    getLandingConfig().then((data) => {
+      if (data) {
+        setLandingConfig(data);
+      }
+    });
+  }, []);
 
   const handleOpenLeadForm = (planName?: string) => {
     if (planName) {
@@ -40,12 +58,23 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-slate-900">
-      {/* SEÇÃO 1: Menu Superior */}
-      <Header onOpenLeadForm={() => handleOpenLeadForm()} />
+      {/* SEÇÃO 1: Menu Superior com acesso ao Banco de Dados */}
+      <Header 
+        onOpenLeadForm={() => handleOpenLeadForm()} 
+        onOpenAdmin={() => setIsAdminModalOpen(true)}
+      />
 
       <main className="flex-grow">
-        {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC */}
-        <Hero onOpenLeadForm={() => handleOpenLeadForm()} />
+        {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC dinâmico do Banco */}
+        <Hero 
+          onOpenLeadForm={() => handleOpenLeadForm()} 
+          headline={landingConfig.heroHeadline}
+          subtitle={landingConfig.heroSubtitle}
+          manifesto={landingConfig.heroManifesto}
+        />
+
+        {/* NOVA SEÇÃO: Imagens Reais de Viagens Corporativas (Aeronaves, Suítes de Hotel & VIP Lounge) */}
+        <CorporateTravelGallerySection onOpenLeadForm={() => handleOpenLeadForm()} />
 
         {/* OS 7 DIFERENCIAIS COMERCIAIS DA STC CORPORATE TRAVEL */}
         <CommercialDifferentialsSection onOpenLeadForm={() => handleOpenLeadForm()} />
@@ -84,14 +113,22 @@ export default function App() {
         <FinalCTASection onOpenLeadForm={() => handleOpenLeadForm()} />
       </main>
 
-      {/* SEÇÃO 13: Rodapé */}
-      <Footer onOpenPrivacyModal={() => setIsPrivacyModalOpen(true)} />
+      {/* SEÇÃO 13: Rodapé com link de Gestão do Banco de Dados */}
+      <Footer 
+        onOpenPrivacyModal={() => setIsPrivacyModalOpen(true)} 
+        onOpenAdmin={() => setIsAdminModalOpen(true)}
+      />
 
       {/* Floating Elements & Modals */}
       <FloatingWhatsApp />
       <PrivacyModal 
         isOpen={isPrivacyModalOpen} 
         onClose={() => setIsPrivacyModalOpen(false)} 
+      />
+      <AdminEditorModal
+        isOpen={isAdminModalOpen}
+        onClose={() => setIsAdminModalOpen(false)}
+        onConfigSaved={(updated) => setLandingConfig(updated)}
       />
     </div>
   );

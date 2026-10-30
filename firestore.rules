@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Landing Page Configuration (Public read, write with valid shape)
+    match /landing_config/{configId} {
+      allow read: if true;
+      allow write: if isValidId(configId)
+        && request.resource.data.brandName is string
+        && request.resource.data.brandName.size() <= 150
+        && request.resource.data.whatsappNumber is string
+        && request.resource.data.whatsappNumber.size() <= 40;
+    }
+
+    // Leads Collection (Public creation for commercial inquiries, read for management)
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId)
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 200
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 200
+        && request.resource.data.company is string
+        && request.resource.data.company.size() <= 200
+        && request.resource.data.phone is string
+        && request.resource.data.phone.size() <= 50;
+      allow read, update, delete: if true;
+    }
+
+    // History of Saved Changes
+    match /page_changes/{changeId} {
+      allow read, write: if isValidId(changeId)
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 250;
+    }
+
+    // Connection test document
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

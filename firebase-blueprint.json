@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "LandingConfig": {
+      "title": "LandingConfig",
+      "description": "Configurações e textos personalizáveis da Landing Page STC Corporate Travel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "brandName": { "type": "string" },
+        "tagline": { "type": "string" },
+        "heroHeadline": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "heroManifesto": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "whatsappDisplay": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneDisplay": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["brandName", "whatsappNumber", "email"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Solicitações de proposta comercial recebidas via Landing Page",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "company": { "type": "string" },
+        "role": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "cityState": { "type": "string" },
+        "monthlyTrips": { "type": "string" },
+        "needs": { "type": "array" },
+        "challenges": { "type": "string" },
+        "planInterest": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "company", "email", "phone"]
+    },
+    "PageChange": {
+      "title": "PageChange",
+      "description": "Histórico de alterações salvas na Landing Page",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "changedFields": { "type": "array" },
+        "savedAt": { "type": "string" }
+      },
+      "required": ["title", "savedAt"]
+    }
+  },
+  "firestore": {
+    "/landing_config/{configId}": {
+      "schema": { "$ref": "#/entities/LandingConfig" },
+      "description": "Coleção de configurações globais da landing page"
+    },
+    "/leads/{leadId}": {
+      "schema": { "$ref": "#/entities/Lead" },
+      "description": "Coleção de leads e pedidos de propostas"
+    },
+    "/page_changes/{changeId}": {
+      "schema": { "$ref": "#/entities/PageChange" },
+      "description": "Histórico de versões e alterações salvas"
+    }
+  }
+}

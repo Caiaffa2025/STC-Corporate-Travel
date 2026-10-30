@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { COMPANY_CONFIG } from '../config/company';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Database } from 'lucide-react';
 
 interface HeaderProps {
   onOpenLeadForm: (planName?: string) => void;
+  onOpenAdmin?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -74,8 +75,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm }) => {
           ))}
         </nav>
 
-        {/* Zone 3: Primary Action CTA */}
-        <div className="hidden sm:flex items-center gap-4 shrink-0">
+        {/* Zone 3: Primary Action CTA & Database Access */}
+        <div className="hidden sm:flex items-center gap-2.5 shrink-0">
+          {onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              title="Gerenciar Banco de Dados e Alterações"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <Database className="w-3.5 h-3.5 text-amber-600" />
+              <span className="hidden xl:inline">Banco de Dados</span>
+            </button>
+          )}
+
           <button
             onClick={() => onOpenLeadForm()}
             className="inline-flex items-center gap-2 px-4 md:px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-colors whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
@@ -87,6 +99,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm }) => {
 
         {/* Mobile menu toggle */}
         <div className="lg:hidden flex items-center gap-1.5 sm:gap-2">
+          {onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              className="p-2 text-slate-700 hover:text-slate-950 rounded-md focus:outline-hidden"
+              title="Banco de Dados"
+            >
+              <Database className="w-5 h-5 text-amber-600" />
+            </button>
+          )}
           <button
             onClick={() => onOpenLeadForm()}
             className="sm:hidden px-2.5 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-md whitespace-nowrap cursor-pointer"
@@ -128,6 +149,20 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm }) => {
                 <span>Solicitar Proposta</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
+
+              {onOpenAdmin && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenAdmin();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-800 bg-slate-100 border border-slate-200 rounded-md hover:bg-slate-200 cursor-pointer"
+                >
+                  <Database className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Gerenciar Banco de Dados</span>
+                </button>
+              )}
+
               <div className="text-center pt-2">
                 <a
                   href={`tel:+5511984937529`}

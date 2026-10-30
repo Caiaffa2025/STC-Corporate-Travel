@@ -1,12 +1,13 @@
 import React from 'react';
 import { COMPANY_CONFIG, getWhatsAppLink } from '../config/company';
-import { MessageSquare, Mail, Phone, Clock, ShieldCheck } from 'lucide-react';
+import { MessageSquare, Mail, Phone, Clock, ShieldCheck, Database } from 'lucide-react';
 
 interface FooterProps {
   onOpenPrivacyModal: () => void;
+  onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal, onOpenAdmin }) => {
   const currentYear = new Date().getFullYear();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -181,12 +182,21 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal }) => {
           <p>
             © {currentYear} {COMPANY_CONFIG.brandName}. Todos os direitos reservados.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="hover:text-amber-400 transition-colors flex items-center gap-1.5 text-amber-300 font-semibold cursor-pointer"
+              >
+                <Database className="w-3.5 h-3.5" />
+                <span>Gerenciar Banco de Dados & Alterações</span>
+              </button>
+            )}
             <button
               onClick={onOpenPrivacyModal}
-              className="hover:text-slate-300 transition-colors"
+              className="hover:text-slate-300 transition-colors cursor-pointer"
             >
-              Termos de Privacidade e Proteção de Dados
+              Privacidade (LGPD)
             </button>
             <a
               href="#inicio"

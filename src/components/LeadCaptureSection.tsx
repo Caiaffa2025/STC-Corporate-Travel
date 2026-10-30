@@ -14,6 +14,7 @@ import {
   Check
 } from 'lucide-react';
 import { getWhatsAppLink } from '../config/company';
+import { saveLeadToFirestore } from '../lib/dbService';
 
 interface LeadCaptureSectionProps {
   selectedPlan?: string;
@@ -156,6 +157,22 @@ export const LeadCaptureSection: React.FC<LeadCaptureSectionProps> = ({
           message: data.message,
           whatsappUrl: data.whatsappUrl,
         });
+
+        // Grava no banco de dados Firestore
+        saveLeadToFirestore({
+          id: data.leadId,
+          name: formData.name,
+          company: formData.company,
+          role: formData.role,
+          email: formData.email,
+          phone: formData.phone,
+          cityState: `${formData.city} - ${formData.state}`,
+          monthlyTrips: formData.monthlyTrips,
+          needs: formData.needs,
+          challenges: formData.challenges,
+          planInterest: selectedPlan || 'Plano sob medida',
+          createdAt: new Date().toISOString(),
+        }).catch((err) => console.warn('[Firestore] Sync warning:', err));
       } else {
         if (data.errors) {
           setFormErrors(data.errors);
