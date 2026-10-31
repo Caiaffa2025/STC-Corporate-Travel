@@ -36,6 +36,21 @@ export const Hero: React.FC<HeroProps> = ({
         }}
       />
 
+      {/* Marca d'água de aeronave em cor bem clarinha no fundo do Hero */}
+      <div 
+        className="absolute -top-6 sm:top-6 right-0 lg:right-1/4 w-[380px] sm:w-[600px] lg:w-[820px] h-auto pointer-events-none select-none opacity-[0.05] text-slate-900 z-0 overflow-hidden transform -rotate-3 transition-opacity"
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 1000 500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+          <path d="M120 310 C 220 280, 420 240, 680 190 C 780 170, 880 150, 940 130 C 970 120, 990 120, 995 125 C 998 128, 990 140, 960 160 C 880 210, 760 270, 640 315 C 480 375, 290 410, 160 400 C 120 395, 100 370, 110 345 Z" />
+          <path d="M480 230 L 320 40 C 315 30, 325 25, 335 28 L 400 55 L 570 210 Z" />
+          <path d="M520 290 L 460 520 C 455 532, 442 532, 435 522 L 405 475 L 440 315 Z" />
+          <path d="M150 310 L 60 250 C 50 242, 58 235, 68 238 L 170 275 Z" />
+          <path d="M160 345 L 80 390 C 70 396, 65 388, 72 380 L 145 340 Z" />
+          <path d="M170 300 L 85 140 C 80 130, 92 125, 102 130 L 205 270 Z" />
+        </svg>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Value Proposition, Manifesto & CTAs */}

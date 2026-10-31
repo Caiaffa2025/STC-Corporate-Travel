@@ -367,6 +367,62 @@ export const AdminEditorModal: React.FC<AdminEditorModalProps> = ({
                     </span>
                   </div>
 
+                  {/* CONFIGURAÇÃO DA MARCA D'ÁGUA DE AERONAVE NO FUNDO */}
+                  <div className="p-4 rounded-xl border border-amber-300 bg-amber-50/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                        <Sparkles className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                          <span>Aeronave em Cor Bem Clarinha no Fundo</span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                            {formData.aircraftWatermarkEnabled !== false ? 'Ativa no Fundo' : 'Desativada'}
+                          </span>
+                        </h4>
+                        <p className="text-xs text-slate-600 mt-0.5">
+                          Destaca a landing page com uma silhueta de aeronave executiva e rotas aéreas em tom bem suave no plano de fundo.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            aircraftWatermarkEnabled: !formData.aircraftWatermarkEnabled,
+                          });
+                        }}
+                        className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider cursor-pointer transition-colors ${
+                          formData.aircraftWatermarkEnabled !== false
+                            ? 'bg-slate-900 text-white hover:bg-slate-800'
+                            : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                        }`}
+                      >
+                        {formData.aircraftWatermarkEnabled !== false ? 'Ativada' : 'Desativada'}
+                      </button>
+
+                      {formData.aircraftWatermarkEnabled !== false && (
+                        <select
+                          value={formData.aircraftWatermarkIntensity || 'light'}
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              aircraftWatermarkIntensity: e.target.value as 'ultra-light' | 'light' | 'medium',
+                            });
+                          }}
+                          className="px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-md text-slate-800 focus:ring-2 focus:ring-slate-900 cursor-pointer"
+                        >
+                          <option value="ultra-light">Tom: Muito Suave (3%)</option>
+                          <option value="light">Tom: Clarinho Padrão (5%)</option>
+                          <option value="medium">Tom: Médio Visível (8%)</option>
+                        </select>
+                      )}
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {CORPORATE_IMAGE_CATALOG.map((item) => {
                       const fieldKey = item.key as keyof LandingPageData;

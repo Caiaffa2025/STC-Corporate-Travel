@@ -30,6 +30,9 @@ export interface LandingPageData {
   vipLoungeImageUrl?: string;
   meetingImageUrl?: string;
   hotelTravelerImageUrl?: string;
+  // Marca d'água de aeronave em cor bem clarinha no fundo da landing page
+  aircraftWatermarkEnabled?: boolean;
+  aircraftWatermarkIntensity?: 'ultra-light' | 'light' | 'medium';
   updatedAt?: string;
 }
 
@@ -72,6 +75,8 @@ export const INITIAL_LANDING_DATA: LandingPageData = {
   vipLoungeImageUrl: DEFAULT_IMAGES.vipLounge,
   meetingImageUrl: DEFAULT_IMAGES.businessMeeting,
   hotelTravelerImageUrl: DEFAULT_IMAGES.hotelTraveler,
+  aircraftWatermarkEnabled: true,
+  aircraftWatermarkIntensity: 'light',
 };
 
 const CONFIG_DOC_ID = 'current_settings';

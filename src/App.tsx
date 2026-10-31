@@ -17,6 +17,7 @@ import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PrivacyModal } from './components/PrivacyModal';
 import { AdminEditorModal } from './components/AdminEditorModal';
+import { AircraftBackgroundWatermark } from './components/AircraftBackgroundWatermark';
 import { testConnection } from './lib/firebase';
 import { getLandingConfig, LandingPageData, INITIAL_LANDING_DATA } from './lib/dbService';
 
@@ -67,14 +68,22 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-slate-900">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-slate-900 relative">
+      {/* MARCA D'ÁGUA DE AERONAVE NO FUNDO DA LANDING PAGE (COR BEM CLARINHA) */}
+      {landingConfig.aircraftWatermarkEnabled !== false && (
+        <AircraftBackgroundWatermark
+          aircraftImageUrl={landingConfig.aircraftImageUrl}
+          intensity={landingConfig.aircraftWatermarkIntensity || 'light'}
+        />
+      )}
+
       {/* SEÇÃO 1: Menu Superior com acesso ao Banco de Dados e Painel Admin */}
       <Header 
         onOpenLeadForm={() => handleOpenLeadForm()} 
         onOpenAdmin={() => setIsAdminModalOpen(true)}
       />
 
-      <main className="flex-grow">
+      <main className="flex-grow relative z-10">
         {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC e Imagem configurável */}
         <Hero 
           onOpenLeadForm={() => handleOpenLeadForm()} 
