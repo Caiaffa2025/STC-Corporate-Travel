@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { CommercialDifferentialsSection } from './components/CommercialDifferentialsSection';
-import { CorporateTravelGallerySection } from './components/CorporateTravelGallerySection';
 import { ProblemSection } from './components/ProblemSection';
 import { SolutionsSection } from './components/SolutionsSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
@@ -91,14 +90,6 @@ export default function App() {
           subtitle={landingConfig.heroSubtitle}
           manifesto={landingConfig.heroManifesto}
           heroImage={landingConfig.heroImageUrl}
-        />
-
-        {/* SEÇÃO DE IMAGENS REAIS: Aeronaves, Suítes 5★ e Salas VIP */}
-        <CorporateTravelGallerySection 
-          onOpenLeadForm={() => handleOpenLeadForm()} 
-          aircraftImage={landingConfig.aircraftImageUrl}
-          hotelSuiteImage={landingConfig.hotelSuiteImageUrl}
-          vipLoungeImage={landingConfig.vipLoungeImageUrl}
         />
 
         {/* OS 7 DIFERENCIAIS COMERCIAIS DA STC CORPORATE TRAVEL */}
