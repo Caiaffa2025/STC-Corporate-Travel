@@ -25,6 +25,24 @@ export const Hero: React.FC<HeroProps> = ({
     }
   };
 
+  // Destaca a frase "PARA CADA EMPRESA" em amarelo conforme solicitado
+  const renderHighlightedManifesto = (text: string) => {
+    const parts = text.split(/(PARA CADA EMPRESA)/gi);
+    return parts.map((part, index) => {
+      if (part.toUpperCase() === 'PARA CADA EMPRESA') {
+        return (
+          <span
+            key={index}
+            className="text-amber-300 font-extrabold bg-amber-400/20 px-2 py-0.5 rounded border border-amber-400/50 shadow-sm underline decoration-amber-400 decoration-2 underline-offset-4 tracking-wide inline-block mx-0.5"
+          >
+            {part}
+          </span>
+        );
+      }
+      return <React.Fragment key={index}>{part}</React.Fragment>;
+    });
+  };
+
   return (
     <section id="inicio" className="relative pt-28 pb-16 md:pt-34 md:pb-20 bg-white overflow-hidden">
       {/* Background architectural grid pattern */}
@@ -82,10 +100,12 @@ export const Hero: React.FC<HeroProps> = ({
                   <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                   Compromisso STC Corporate Travel
                 </span>
-                <span className="text-xs text-slate-400 font-mono">Plataforma Exclusiva</span>
+                <span className="text-xs text-amber-300 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+                  PARA CADA EMPRESA
+                </span>
               </div>
               <p className="text-base sm:text-lg font-medium leading-relaxed text-slate-100">
-                &ldquo;{manifesto}&rdquo;
+                &ldquo;{renderHighlightedManifesto(manifesto)}&rdquo;
               </p>
             </div>
 

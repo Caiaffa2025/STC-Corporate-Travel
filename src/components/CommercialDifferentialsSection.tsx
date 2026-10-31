@@ -24,7 +24,7 @@ export const CommercialDifferentialsSection: React.FC<CommercialDifferentialsSec
       title: 'Plataforma própria com acesso do cliente',
       description: 'Ambiente exclusivo e parametrizado para sua empresa registrar solicitações, acompanhar status de viagens e acessar relatórios em um só lugar.',
       icon: Laptop,
-      highlight: 'Exclusiva para cada empresa',
+      highlight: 'Exclusiva PARA CADA EMPRESA',
     },
     {
       number: '02',
@@ -121,7 +121,9 @@ export const CommercialDifferentialsSection: React.FC<CommercialDifferentialsSec
                     </span>
                   </div>
 
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  <div className={`text-[11px] font-bold uppercase tracking-wider mb-1 ${
+                    isFeatured ? 'text-amber-300 font-extrabold' : 'text-slate-400'
+                  }`}>
                     {diff.highlight}
                   </div>
 
