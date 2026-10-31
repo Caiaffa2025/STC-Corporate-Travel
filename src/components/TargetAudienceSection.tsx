@@ -8,8 +8,15 @@ import {
   MapPin, 
   Check 
 } from 'lucide-react';
+import { DEFAULT_IMAGES } from '../assets/images';
 
-export const TargetAudienceSection: React.FC = () => {
+interface TargetAudienceSectionProps {
+  hotelTravelerImage?: string;
+}
+
+export const TargetAudienceSection: React.FC<TargetAudienceSectionProps> = ({
+  hotelTravelerImage = DEFAULT_IMAGES.hotelTraveler,
+}) => {
   const audiences = [
     {
       icon: Building2,
@@ -92,11 +99,14 @@ export const TargetAudienceSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             <div className="lg:col-span-5 h-64 sm:h-80 lg:h-96 relative">
               <img
-                src="/src/assets/images/hotel_business_traveler_1793393037477.jpg"
+                src={hotelTravelerImage || DEFAULT_IMAGES.hotelTraveler}
                 alt="Executiva em hotel corporativo com mala e suporte ágil"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
                 loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/hotel-traveler.jpg';
+                }}
               />
             </div>
             <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10">

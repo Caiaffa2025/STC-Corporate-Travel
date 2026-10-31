@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { COMPANY_CONFIG } from '../config/company';
-import { Menu, X, ArrowUpRight, Database } from 'lucide-react';
+import { COMPANY_CONFIG, getWhatsAppLink } from '../config/company';
+import {
+  Menu,
+  X,
+  ArrowUpRight,
+  Lock,
+  Phone,
+  MessageSquare,
+  ChevronRight,
+  Home,
+  Sparkles,
+  Briefcase,
+  Workflow,
+  ShieldCheck,
+  Layers,
+  Mail,
+} from 'lucide-react';
 
 interface HeaderProps {
   onOpenLeadForm: (planName?: string) => void;
@@ -11,6 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) =
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Scroll detection to adjust header elevation
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -19,14 +35,33 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) =
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open, and handle ESC key
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setMobileMenuOpen(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [mobileMenuOpen]);
+
   const navLinks = [
-    { label: 'Início', href: '#inicio' },
-    { label: 'Diferenciais', href: '#diferenciais-stc' },
-    { label: 'Soluções', href: '#solucoes' },
-    { label: 'Como Funciona', href: '#como-funciona' },
-    { label: 'Benefícios', href: '#beneficios' },
-    { label: 'Planos', href: '#planos' },
-    { label: 'Contato', href: '#contato' },
+    { label: 'Início', href: '#inicio', icon: Home },
+    { label: 'Diferenciais', href: '#diferenciais-stc', icon: Sparkles },
+    { label: 'Soluções', href: '#solucoes', icon: Briefcase },
+    { label: 'Como Funciona', href: '#como-funciona', icon: Workflow },
+    { label: 'Benefícios', href: '#beneficios', icon: ShieldCheck },
+    { label: 'Planos', href: '#planos', icon: Layers },
+    { label: 'Contato', href: '#contato', icon: Mail },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -39,142 +74,217 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) =
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-200/80 py-3'
-          : 'bg-white border-b border-slate-100 py-4'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand Wordmark */}
-        <a
-          href="#inicio"
-          onClick={(e) => handleNavClick(e, '#inicio')}
-          className="flex items-center gap-2 text-slate-900 group shrink-0"
-        >
-          <div className="w-8 h-8 rounded bg-slate-900 flex items-center justify-center text-amber-400 font-extrabold text-xs tracking-wider shadow-xs shrink-0">
-            STC
-          </div>
-          <span className="font-extrabold text-xs sm:text-sm md:text-base tracking-tight text-slate-900 group-hover:text-sky-800 transition-colors uppercase truncate max-w-[170px] sm:max-w-none">
-            {COMPANY_CONFIG.brandName}
-          </span>
-        </a>
-
-        {/* Zone 2: Navigation Links (Clean single-line prose, subtle hover) */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-7 text-sm font-medium text-slate-600">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="hover:text-slate-950 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 border-transparent hover:border-slate-900"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Zone 3: Primary Action CTA & Database Access */}
-        <div className="hidden sm:flex items-center gap-2.5 shrink-0">
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              title="Gerenciar Banco de Dados e Alterações"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <Database className="w-3.5 h-3.5 text-amber-600" />
-              <span className="hidden xl:inline">Banco de Dados</span>
-            </button>
-          )}
-
-          <button
-            onClick={() => onOpenLeadForm()}
-            className="inline-flex items-center gap-2 px-4 md:px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-colors whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+          isScrolled
+            ? 'bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-200/80 py-2.5 sm:py-3'
+            : 'bg-white border-b border-slate-100 py-3 sm:py-4'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 lg:gap-8">
+          {/* Zone 1: Brand Wordmark */}
+          <a
+            href="#inicio"
+            onClick={(e) => handleNavClick(e, '#inicio')}
+            className="flex items-center gap-2 text-slate-900 group shrink-0 select-none"
+            aria-label="STC Corporate Travel - Ir para o início"
           >
-            <span>Solicitar Proposta</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-slate-900 flex items-center justify-center text-amber-400 font-black text-xs sm:text-sm tracking-wider shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+              STC
+            </div>
+            <div className="flex flex-col">
+              <span className="font-extrabold text-xs sm:text-sm md:text-base tracking-tight text-slate-900 group-hover:text-sky-800 transition-colors uppercase whitespace-nowrap">
+                {COMPANY_CONFIG.brandName}
+              </span>
+              <span className="hidden sm:block text-[10px] text-slate-500 font-medium -mt-0.5 leading-tight">
+                Gestão Terceirizada de Viagens
+              </span>
+            </div>
+          </a>
 
-        {/* Mobile menu toggle */}
-        <div className="lg:hidden flex items-center gap-1.5 sm:gap-2">
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              className="p-2 text-slate-700 hover:text-slate-950 rounded-md focus:outline-hidden"
-              title="Banco de Dados"
-            >
-              <Database className="w-5 h-5 text-amber-600" />
-            </button>
-          )}
-          <button
-            onClick={() => onOpenLeadForm()}
-            className="sm:hidden px-2.5 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-md whitespace-nowrap cursor-pointer"
-          >
-            Proposta
-          </button>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-700 hover:text-slate-950 rounded-md focus:outline-hidden cursor-pointer"
-            aria-label="Abrir menu de navegação"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="flex flex-col space-y-1">
+          {/* Zone 2: Desktop Navigation Links (Responsive spacing for laptop and large screens) */}
+          <nav className="hidden lg:flex items-center lg:gap-3 xl:gap-6 2xl:gap-7 text-xs xl:text-sm font-semibold text-slate-600">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-base font-medium text-slate-800 hover:text-slate-950 py-2.5 px-2 rounded hover:bg-slate-50 transition-colors border-b border-slate-100"
+                className="hover:text-slate-950 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 border-transparent hover:border-slate-900"
               >
                 {link.label}
               </a>
             ))}
-            <div className="pt-3 space-y-2">
+          </nav>
+
+          {/* Zone 3: Desktop Action Buttons (Admin & Solicitar Proposta) */}
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
+            {onOpenAdmin && (
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenLeadForm();
-                }}
-                className="w-full flex items-center justify-center gap-2 px-5 py-3.5 text-sm font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 cursor-pointer shadow-xs"
+                onClick={onOpenAdmin}
+                title="Área do Administrador (Senha 1966)"
+                className="inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
-                <span>Solicitar Proposta</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <Lock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span className="hidden xl:inline">Área Admin</span>
               </button>
+            )}
 
-              {onOpenAdmin && (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenAdmin();
-                  }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-800 bg-slate-100 border border-slate-200 rounded-md hover:bg-slate-200 cursor-pointer"
-                >
-                  <Database className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Gerenciar Banco de Dados</span>
-                </button>
+            <button
+              onClick={() => onOpenLeadForm()}
+              className="inline-flex items-center gap-1.5 xl:gap-2 px-3.5 xl:px-5 py-2 xl:py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 active:scale-98 transition-all whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
+            >
+              <span>Solicitar Proposta</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Zone 4: Mobile & Tablet Actions & Toggle (< 1024px) */}
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2.5">
+            {/* Tablet Proposta button (visible 640px - 1023px) */}
+            <button
+              onClick={() => onOpenLeadForm()}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-colors whitespace-nowrap cursor-pointer shadow-xs"
+            >
+              <span>Proposta</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Mobile WhatsApp Quick Icon (< 640px) */}
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Atendimento via WhatsApp"
+              className="sm:hidden p-2 text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-md transition-colors"
+            >
+              <MessageSquare className="w-4 h-4" />
+            </a>
+
+            {/* Admin Quick Icon */}
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-md transition-colors cursor-pointer"
+                title="Área do Administrador (Senha: 1966)"
+                aria-label="Área do Administrador"
+              >
+                <Lock className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-600" />
+              </button>
+            )}
+
+            {/* Hamburger Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="min-w-[42px] min-h-[42px] flex items-center justify-center text-slate-800 hover:text-slate-950 hover:bg-slate-100 rounded-md transition-colors cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-slate-900"
+              aria-label={mobileMenuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6 text-slate-900" />
+              ) : (
+                <Menu className="w-6 h-6 text-slate-900" />
               )}
+            </button>
+          </div>
+        </div>
 
-              <div className="text-center pt-2">
-                <a
-                  href={`tel:+5511984937529`}
-                  className="text-xs font-medium text-slate-600 hover:text-slate-900"
-                >
-                  Central de Atendimento: {COMPANY_CONFIG.phoneDisplay}
-                </a>
+        {/* Mobile / Tablet Dropdown Drawer with Full Responsive UI */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden">
+            {/* Backdrop Overlay */}
+            <div
+              className="fixed inset-0 top-[57px] sm:top-[65px] bg-slate-950/60 backdrop-blur-xs z-40 transition-opacity"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
+
+            {/* Drawer Panel */}
+            <div className="relative z-50 bg-white border-b border-slate-200 shadow-2xl max-h-[calc(100vh-65px)] overflow-y-auto">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-4">
+                {/* Navigation Links with icons and clean touch areas */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 pb-3 border-b border-slate-100">
+                  {navLinks.map((link) => {
+                    const IconComponent = link.icon;
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={(e) => handleNavClick(e, link.href)}
+                        className="flex items-center justify-between px-3.5 py-3 rounded-lg text-slate-800 hover:text-slate-950 hover:bg-slate-50 active:bg-slate-100 font-medium text-sm sm:text-base transition-colors group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <IconComponent className="w-4 h-4 text-slate-500 group-hover:text-slate-900 transition-colors" />
+                          <span>{link.label}</span>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900 transition-colors" />
+                      </a>
+                    );
+                  })}
+                </div>
+
+                {/* Mobile Call-To-Action Actions */}
+                <div className="space-y-2.5 pt-1">
+                  {/* Primary CTA */}
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenLeadForm();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm active:scale-99 transition-all cursor-pointer"
+                  >
+                    <span>Solicitar Proposta Gratuita</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button>
+
+                  {/* Direct WhatsApp Action */}
+                  <a
+                    href={getWhatsAppLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors"
+                  >
+                    <MessageSquare className="w-4 h-4 text-emerald-700" />
+                    <span>WhatsApp: {COMPANY_CONFIG.whatsappDisplay}</span>
+                  </a>
+
+                  {/* Central de Atendimento & Admin */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <a
+                      href={`tel:+5511984937529`}
+                      className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-slate-600" />
+                      <span>Ligar: {COMPANY_CONFIG.phoneDisplay}</span>
+                    </a>
+
+                    {onOpenAdmin && (
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onOpenAdmin();
+                        }}
+                        className="flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <Lock className="w-3.5 h-3.5 text-amber-600" />
+                        <span>Área Admin (Senha 1966)</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Business Hours Info */}
+                  <div className="text-center pt-2 pb-1 text-[11px] text-slate-500">
+                    <p>{COMPANY_CONFIG.businessHours}</p>
+                    <p className="font-medium text-slate-600">{COMPANY_CONFIG.email}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </header>
+        )}
+      </header>
+    </>
   );
 };
+

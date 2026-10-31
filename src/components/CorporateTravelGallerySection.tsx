@@ -1,12 +1,19 @@
 import React from 'react';
 import { Plane, Building, Coffee, ArrowRight, ShieldCheck } from 'lucide-react';
+import { DEFAULT_IMAGES } from '../assets/images';
 
 interface CorporateTravelGallerySectionProps {
   onOpenLeadForm: () => void;
+  aircraftImage?: string;
+  hotelSuiteImage?: string;
+  vipLoungeImage?: string;
 }
 
 export const CorporateTravelGallerySection: React.FC<CorporateTravelGallerySectionProps> = ({
   onOpenLeadForm,
+  aircraftImage = DEFAULT_IMAGES.jetAircraft,
+  hotelSuiteImage = DEFAULT_IMAGES.hotelSuite,
+  vipLoungeImage = DEFAULT_IMAGES.vipLounge,
 }) => {
   const galleries = [
     {
@@ -14,7 +21,8 @@ export const CorporateTravelGallerySection: React.FC<CorporateTravelGallerySecti
       subtitle: 'Passagens & Voos Estratégicos',
       description:
         'Cotações ágeis em todas as companhias aéreas com opções de horários inteligentes, bagagem inclusa e gestão ativa de bilhetes e conexões.',
-      image: '/src/assets/images/corporate_jet_aircraft_1793395401238.jpg',
+      image: aircraftImage || DEFAULT_IMAGES.jetAircraft,
+      fallback: '/images/jet-aircraft.jpg',
       alt: 'Aeronave corporativa executiva moderna em pátio de aeroporto sob o pôr do sol',
       badge: 'Aviação Comercial & Executiva',
       icon: Plane,
@@ -24,7 +32,8 @@ export const CorporateTravelGallerySection: React.FC<CorporateTravelGallerySecti
       subtitle: 'Hotéis e Suítes de Negócios',
       description:
         'Seleção de hotéis corporativos próximos aos seus compromissos, com mesa de trabalho, Wi-Fi de alta velocidade e faturamento direto com a empresa.',
-      image: '/src/assets/images/luxury_business_hotel_suite_1793395401882.jpg',
+      image: hotelSuiteImage || DEFAULT_IMAGES.hotelSuite,
+      fallback: '/images/hotel-suite.jpg',
       alt: 'Suíte executiva contemporânea em hotel 5 estrelas com vista panorâmica para a cidade e mesa de trabalho',
       badge: 'Rede Hoteleira Homologada',
       icon: Building,
@@ -34,7 +43,8 @@ export const CorporateTravelGallerySection: React.FC<CorporateTravelGallerySecti
       subtitle: 'Tranquilidade e Produtividade',
       description:
         'Ambiente adequado para o colaborador trabalhar ou descansar durante conexões, garantindo pontualidade e bem-estar nas viagens.',
-      image: '/src/assets/images/corporate_vip_airport_lounge_1793395401401.jpg',
+      image: vipLoungeImage || DEFAULT_IMAGES.vipLounge,
+      fallback: '/images/vip-lounge.jpg',
       alt: 'Sala VIP executiva moderna em aeroporto internacional com vista ampla para pista e aeronaves',
       badge: 'Conforto em Trânsito',
       icon: Coffee,
@@ -77,6 +87,9 @@ export const CorporateTravelGallerySection: React.FC<CorporateTravelGallerySecti
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       referrerPolicy="no-referrer"
                       loading="lazy"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = item.fallback;
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
                     

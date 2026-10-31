@@ -1,6 +1,6 @@
 import React from 'react';
 import { COMPANY_CONFIG, getWhatsAppLink } from '../config/company';
-import { MessageSquare, Mail, Phone, Clock, ShieldCheck, Database } from 'lucide-react';
+import { MessageSquare, Mail, Phone, Clock, ShieldCheck, Database, Lock } from 'lucide-react';
 
 interface FooterProps {
   onOpenPrivacyModal: () => void;
@@ -187,9 +187,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal, onOpenAdmin 
               <button
                 onClick={onOpenAdmin}
                 className="hover:text-amber-400 transition-colors flex items-center gap-1.5 text-amber-300 font-semibold cursor-pointer"
+                title="Acesso com senha invisível (1966)"
               >
-                <Database className="w-3.5 h-3.5" />
-                <span>Gerenciar Banco de Dados & Alterações</span>
+                <Lock className="w-3.5 h-3.5" />
+                <span>Painel do Administrador (Área Restrita)</span>
               </button>
             )}
             <button

@@ -1,11 +1,13 @@
 import React from 'react';
 import { ArrowRight, Compass, ShieldCheck, UserCheck, Quote, Sparkles } from 'lucide-react';
+import { DEFAULT_IMAGES } from '../assets/images';
 
 interface HeroProps {
   onOpenLeadForm: () => void;
   headline?: string;
   subtitle?: string;
   manifesto?: string;
+  heroImage?: string;
 }
 
 export const Hero: React.FC<HeroProps> = ({ 
@@ -13,6 +15,7 @@ export const Hero: React.FC<HeroProps> = ({
   headline = 'Sua empresa viaja. Nós cuidamos de toda a gestão.',
   subtitle = 'Tecnologia, organização e gestão especializada para empresas que precisam viajar.',
   manifesto = 'Assumimos a gestão das viagens corporativas da sua empresa, desde a solicitação até a reserva, administração e controle financeiro. Tudo centralizado em uma plataforma exclusiva PARA CADA EMPRESA, com acompanhamento e transparência.',
+  heroImage = DEFAULT_IMAGES.heroAirport,
 }) => {
   const scrollToSolutions = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -134,11 +137,14 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-xl overflow-hidden border border-slate-200 shadow-xl bg-slate-900">
               <img
-                src="/src/assets/images/hero_executive_airport_1793393036141.jpg"
+                src={heroImage || DEFAULT_IMAGES.heroAirport}
                 alt="Executiva em trânsito em aeroporto corporativo com bagagem de mão e notebook"
                 className="w-full h-[440px] sm:h-[500px] lg:h-[540px] object-cover object-center"
                 referrerPolicy="no-referrer"
                 loading="eager"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/hero-airport.jpg';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent pointer-events-none" />
               

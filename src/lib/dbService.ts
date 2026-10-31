@@ -11,6 +11,8 @@ import {
 import { db } from './firebase';
 import { COMPANY_CONFIG } from '../config/company';
 
+import { DEFAULT_IMAGES } from '../assets/images';
+
 export interface LandingPageData {
   brandName: string;
   tagline: string;
@@ -21,6 +23,13 @@ export interface LandingPageData {
   whatsappDisplay: string;
   email: string;
   phoneDisplay: string;
+  // Imagens configuráveis com garantia de exibição em produção
+  heroImageUrl?: string;
+  aircraftImageUrl?: string;
+  hotelSuiteImageUrl?: string;
+  vipLoungeImageUrl?: string;
+  meetingImageUrl?: string;
+  hotelTravelerImageUrl?: string;
   updatedAt?: string;
 }
 
@@ -57,6 +66,12 @@ export const INITIAL_LANDING_DATA: LandingPageData = {
   whatsappDisplay: COMPANY_CONFIG.whatsappDisplay,
   email: COMPANY_CONFIG.email,
   phoneDisplay: COMPANY_CONFIG.phoneDisplay,
+  heroImageUrl: DEFAULT_IMAGES.heroAirport,
+  aircraftImageUrl: DEFAULT_IMAGES.jetAircraft,
+  hotelSuiteImageUrl: DEFAULT_IMAGES.hotelSuite,
+  vipLoungeImageUrl: DEFAULT_IMAGES.vipLounge,
+  meetingImageUrl: DEFAULT_IMAGES.businessMeeting,
+  hotelTravelerImageUrl: DEFAULT_IMAGES.hotelTraveler,
 };
 
 const CONFIG_DOC_ID = 'current_settings';

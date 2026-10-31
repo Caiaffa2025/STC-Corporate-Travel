@@ -8,12 +8,17 @@ import {
   BarChart3,
   ShieldCheck
 } from 'lucide-react';
+import { DEFAULT_IMAGES } from '../assets/images';
 
 interface SolutionsSectionProps {
   onSelectService: (serviceName: string) => void;
+  meetingImage?: string;
 }
 
-export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onSelectService }) => {
+export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ 
+  onSelectService,
+  meetingImage = DEFAULT_IMAGES.businessMeeting,
+}) => {
   const services = [
     {
       id: 'passagens',
@@ -98,11 +103,14 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onSelectServ
             </div>
             <div className="lg:col-span-7 h-64 sm:h-80 lg:h-96 relative">
               <img
-                src="/src/assets/images/corporate_business_meeting_1793393036973.jpg"
+                src={meetingImage || DEFAULT_IMAGES.businessMeeting}
                 alt="Equipe corporativa analisando relatórios e planos de viagem em sala de reuniões executiva"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
                 loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/business-meeting.jpg';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent" />
             </div>

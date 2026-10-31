@@ -36,6 +36,16 @@ export default function App() {
         setLandingConfig(data);
       }
     });
+
+    // 3. Suporte a link direto do administrador via hash #admin
+    const handleHash = () => {
+      if (window.location.hash === '#admin') {
+        setIsAdminModalOpen(true);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   const handleOpenLeadForm = (planName?: string) => {
@@ -58,23 +68,29 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-slate-900">
-      {/* SEÇÃO 1: Menu Superior com acesso ao Banco de Dados */}
+      {/* SEÇÃO 1: Menu Superior com acesso ao Banco de Dados e Painel Admin */}
       <Header 
         onOpenLeadForm={() => handleOpenLeadForm()} 
         onOpenAdmin={() => setIsAdminModalOpen(true)}
       />
 
       <main className="flex-grow">
-        {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC dinâmico do Banco */}
+        {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC e Imagem configurável */}
         <Hero 
           onOpenLeadForm={() => handleOpenLeadForm()} 
           headline={landingConfig.heroHeadline}
           subtitle={landingConfig.heroSubtitle}
           manifesto={landingConfig.heroManifesto}
+          heroImage={landingConfig.heroImageUrl}
         />
 
-        {/* NOVA SEÇÃO: Imagens Reais de Viagens Corporativas (Aeronaves, Suítes de Hotel & VIP Lounge) */}
-        <CorporateTravelGallerySection onOpenLeadForm={() => handleOpenLeadForm()} />
+        {/* SEÇÃO DE IMAGENS REAIS: Aeronaves, Suítes 5★ e Salas VIP */}
+        <CorporateTravelGallerySection 
+          onOpenLeadForm={() => handleOpenLeadForm()} 
+          aircraftImage={landingConfig.aircraftImageUrl}
+          hotelSuiteImage={landingConfig.hotelSuiteImageUrl}
+          vipLoungeImage={landingConfig.vipLoungeImageUrl}
+        />
 
         {/* OS 7 DIFERENCIAIS COMERCIAIS DA STC CORPORATE TRAVEL */}
         <CommercialDifferentialsSection onOpenLeadForm={() => handleOpenLeadForm()} />
@@ -82,8 +98,11 @@ export default function App() {
         {/* SEÇÃO 3: O Problema do Cliente */}
         <ProblemSection />
 
-        {/* SEÇÃO 4: Apresentação da Solução */}
-        <SolutionsSection onSelectService={handleSelectService} />
+        {/* SEÇÃO 4: Apresentação da Solução com Reunião Executiva */}
+        <SolutionsSection 
+          onSelectService={handleSelectService} 
+          meetingImage={landingConfig.meetingImageUrl}
+        />
 
         {/* SEÇÃO 5: Como Funciona */}
         <HowItWorksSection />
@@ -91,8 +110,10 @@ export default function App() {
         {/* SEÇÃO 6: Benefícios para a Empresa */}
         <BenefitsSection />
 
-        {/* SEÇÃO 7: Para Quem É o Serviço */}
-        <TargetAudienceSection />
+        {/* SEÇÃO 7: Para Quem É o Serviço com Imagem de Check-in */}
+        <TargetAudienceSection 
+          hotelTravelerImage={landingConfig.hotelTravelerImageUrl}
+        />
 
         {/* SEÇÃO 8: Diferencial Tecnológico */}
         <TechDifferentiatorSection />
