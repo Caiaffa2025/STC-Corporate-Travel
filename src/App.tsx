@@ -16,7 +16,10 @@ import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { PrivacyModal } from './components/PrivacyModal';
 import { AdminEditorModal } from './components/AdminEditorModal';
+import { EmployeePortalModal } from './components/EmployeePortalModal';
+import { PlatformAccessSection } from './components/PlatformAccessSection';
 import { AircraftBackgroundWatermark } from './components/AircraftBackgroundWatermark';
+import { ScrollRevealSection } from './components/ScrollRevealSection';
 import { testConnection } from './lib/firebase';
 import { getLandingConfig, LandingPageData, INITIAL_LANDING_DATA } from './lib/dbService';
 
@@ -24,6 +27,7 @@ export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [isEmployeePortalOpen, setIsEmployeePortalOpen] = useState(false);
   const [landingConfig, setLandingConfig] = useState<LandingPageData>(INITIAL_LANDING_DATA);
 
   useEffect(() => {
@@ -37,10 +41,12 @@ export default function App() {
       }
     });
 
-    // 3. Suporte a link direto do administrador via hash #admin
+    // 3. Suporte a link direto do administrador (#admin) e portal (#solicitar-viagem, #portal)
     const handleHash = () => {
       if (window.location.hash === '#admin') {
         setIsAdminModalOpen(true);
+      } else if (window.location.hash === '#solicitar-viagem' || window.location.hash === '#portal' || window.location.hash === '#viagem') {
+        setIsEmployeePortalOpen(true);
       }
     };
     handleHash();
@@ -80,12 +86,14 @@ export default function App() {
       <Header 
         onOpenLeadForm={() => handleOpenLeadForm()} 
         onOpenAdmin={() => setIsAdminModalOpen(true)}
+        onOpenEmployeePortal={() => setIsEmployeePortalOpen(true)}
       />
 
       <main className="flex-grow relative z-10">
         {/* SEÇÃO 2: Hero / Primeira Dobra com Manifesto STC e Imagem configurável */}
         <Hero 
           onOpenLeadForm={() => handleOpenLeadForm()} 
+          onOpenEmployeePortal={() => setIsEmployeePortalOpen(true)}
           headline={landingConfig.heroHeadline}
           subtitle={landingConfig.heroSubtitle}
           manifesto={landingConfig.heroManifesto}
@@ -93,45 +101,75 @@ export default function App() {
         />
 
         {/* OS 7 DIFERENCIAIS COMERCIAIS DA STC CORPORATE TRAVEL */}
-        <CommercialDifferentialsSection onOpenLeadForm={() => handleOpenLeadForm()} />
+        <ScrollRevealSection>
+          <CommercialDifferentialsSection onOpenLeadForm={() => handleOpenLeadForm()} />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 3: O Problema do Cliente */}
-        <ProblemSection />
+        <ScrollRevealSection>
+          <ProblemSection />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 4: Apresentação da Solução com Reunião Executiva */}
-        <SolutionsSection 
-          onSelectService={handleSelectService} 
-          meetingImage={landingConfig.meetingImageUrl}
-        />
+        <ScrollRevealSection>
+          <SolutionsSection 
+            onSelectService={handleSelectService} 
+            meetingImage={landingConfig.meetingImageUrl}
+          />
+        </ScrollRevealSection>
 
-        {/* SEÇÃO 5: Como Funciona */}
-        <HowItWorksSection />
+        {/* SEÇÃO 5: Como Funciona, Recursos e Status */}
+        <ScrollRevealSection>
+          <HowItWorksSection />
+        </ScrollRevealSection>
+
+        {/* SEÇÃO 5.1: 2 Botões de Acesso - Solicitar Minha Viagem & Administrador */}
+        <ScrollRevealSection>
+          <PlatformAccessSection 
+            onOpenEmployeePortal={() => setIsEmployeePortalOpen(true)}
+            onOpenAdmin={() => setIsAdminModalOpen(true)}
+          />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 6: Benefícios para a Empresa */}
-        <BenefitsSection />
+        <ScrollRevealSection>
+          <BenefitsSection />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 7: Para Quem É o Serviço com Imagem de Check-in */}
-        <TargetAudienceSection 
-          hotelTravelerImage={landingConfig.hotelTravelerImageUrl}
-        />
+        <ScrollRevealSection>
+          <TargetAudienceSection 
+            hotelTravelerImage={landingConfig.hotelTravelerImageUrl}
+          />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 8: Diferencial Tecnológico */}
-        <TechDifferentiatorSection />
+        <ScrollRevealSection>
+          <TechDifferentiatorSection />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 9: Modelo de Contratação */}
-        <HiringModelSection onSelectPlan={handleOpenLeadForm} />
+        <ScrollRevealSection>
+          <HiringModelSection onSelectPlan={handleOpenLeadForm} />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 10: Formulário de Captação de Leads */}
-        <LeadCaptureSection 
-          selectedPlan={selectedPlan}
-          onOpenPrivacyModal={() => setIsPrivacyModalOpen(true)}
-        />
+        <ScrollRevealSection>
+          <LeadCaptureSection 
+            selectedPlan={selectedPlan}
+            onOpenPrivacyModal={() => setIsPrivacyModalOpen(true)}
+          />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 11: Perguntas Frequentes */}
-        <FAQSection />
+        <ScrollRevealSection>
+          <FAQSection />
+        </ScrollRevealSection>
 
         {/* SEÇÃO 12: CTA Final */}
-        <FinalCTASection onOpenLeadForm={() => handleOpenLeadForm()} />
+        <ScrollRevealSection>
+          <FinalCTASection onOpenLeadForm={() => handleOpenLeadForm()} />
+        </ScrollRevealSection>
       </main>
 
       {/* SEÇÃO 13: Rodapé com link de Gestão do Banco de Dados */}
@@ -150,6 +188,10 @@ export default function App() {
         isOpen={isAdminModalOpen}
         onClose={() => setIsAdminModalOpen(false)}
         onConfigSaved={(updated) => setLandingConfig(updated)}
+      />
+      <EmployeePortalModal
+        isOpen={isEmployeePortalOpen}
+        onClose={() => setIsEmployeePortalOpen(false)}
       />
     </div>
   );

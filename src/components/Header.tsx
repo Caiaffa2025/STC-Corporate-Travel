@@ -15,14 +15,20 @@ import {
   ShieldCheck,
   Layers,
   Mail,
+  Plane,
 } from 'lucide-react';
 
 interface HeaderProps {
   onOpenLeadForm: (planName?: string) => void;
   onOpenAdmin?: () => void;
+  onOpenEmployeePortal?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  onOpenLeadForm, 
+  onOpenAdmin,
+  onOpenEmployeePortal 
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -117,59 +123,61 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) =
             ))}
           </nav>
 
-          {/* Zone 3: Desktop Action Buttons (Admin & Solicitar Proposta) */}
+          {/* Zone 3: Desktop Action Buttons (2 Botões de Acesso: Solicitar Minha Viagem & Administrador) */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
+            {onOpenEmployeePortal && (
+              <button
+                onClick={onOpenEmployeePortal}
+                title="Portal do Colaborador (Acesse com Nome e Senha para solicitar sua viagem)"
+                className="inline-flex items-center gap-1.5 px-3.5 xl:px-4 py-2 xl:py-2.5 text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-md transition-all shadow-xs cursor-pointer active:scale-98"
+              >
+                <Plane className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                <span>Solicitar Minha Viagem</span>
+              </button>
+            )}
+
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                title="Área do Administrador (Senha 1966)"
-                className="inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                title="Painel do Administrador (Senha: 1966)"
+                className="inline-flex items-center gap-1.5 px-3 py-2 xl:py-2.5 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 border border-slate-200/80 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 <Lock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                <span className="hidden xl:inline">Área Admin</span>
+                <span>Administrador</span>
               </button>
             )}
 
             <button
               onClick={() => onOpenLeadForm()}
-              className="inline-flex items-center gap-1.5 xl:gap-2 px-3.5 xl:px-5 py-2 xl:py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 active:scale-98 transition-all whitespace-nowrap shrink-0 shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 border border-slate-200/70 hover:border-slate-300 rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <span>Solicitar Proposta</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>Orçamento PME</span>
+              <ArrowUpRight className="w-3 h-3 text-slate-500" />
             </button>
           </div>
 
           {/* Zone 4: Mobile & Tablet Actions & Toggle (< 1024px) */}
-          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2.5">
-            {/* Tablet Proposta button (visible 640px - 1023px) */}
-            <button
-              onClick={() => onOpenLeadForm()}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-colors whitespace-nowrap cursor-pointer shadow-xs"
-            >
-              <span>Proposta</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Mobile WhatsApp Quick Icon (< 640px) */}
-            <a
-              href={getWhatsAppLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Atendimento via WhatsApp"
-              className="sm:hidden p-2 text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-md transition-colors"
-            >
-              <MessageSquare className="w-4 h-4" />
-            </a>
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            {/* Quick Solicitar Minha Viagem Button on Tablet & Mobile */}
+            {onOpenEmployeePortal && (
+              <button
+                onClick={onOpenEmployeePortal}
+                className="inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-md transition-colors cursor-pointer shadow-2xs whitespace-nowrap"
+              >
+                <Plane className="w-3.5 h-3.5 shrink-0" />
+                <span>Solicitar Viagem</span>
+              </button>
+            )}
 
             {/* Admin Quick Icon */}
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                className="p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-md transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-md transition-colors cursor-pointer"
                 title="Área do Administrador (Senha: 1966)"
-                aria-label="Área do Administrador"
+                aria-label="Administrador"
               >
-                <Lock className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-600" />
+                <Lock className="w-4 h-4 text-amber-600" />
               </button>
             )}
 
@@ -226,12 +234,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenLeadForm, onOpenAdmin }) =
                 {/* Mobile Call-To-Action Actions */}
                 <div className="space-y-2.5 pt-1">
                   {/* Primary CTA */}
+                  {/* 2 Botões de Acesso no Menu Mobile */}
+                  {onOpenEmployeePortal && (
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onOpenEmployeePortal();
+                      }}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl shadow-md transition-all cursor-pointer"
+                    >
+                      <Plane className="w-4 h-4 text-slate-950" />
+                      <span>Solicitar Minha Viagem (Portal)</span>
+                    </button>
+                  )}
+
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);
                       onOpenLeadForm();
                     }}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm active:scale-99 transition-all cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow-sm active:scale-99 transition-all cursor-pointer"
                   >
                     <span>Solicitar Proposta Gratuita</span>
                     <ArrowUpRight className="w-4 h-4" />

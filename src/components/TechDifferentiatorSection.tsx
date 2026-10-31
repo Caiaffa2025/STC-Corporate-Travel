@@ -159,19 +159,27 @@ export const TechDifferentiatorSection: React.FC = () => {
                 <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 font-mono text-xs text-slate-300 space-y-2">
                   <div className="flex justify-between border-b border-slate-800 pb-1.5">
                     <span className="text-slate-500">Viajante:</span>
-                    <span>Mariana Costa (Diretoria Comercial)</span>
+                    <span>Mariana Costa</span>
                   </div>
                   <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                    <span className="text-slate-500">Trecho:</span>
-                    <span>São Paulo (CGH) ⇄ Curitiba (CWB)</span>
+                    <span className="text-slate-500">Departamento:</span>
+                    <span className="text-purple-300 font-semibold">Comercial (ou Área Técnica / TI / Diretoria)</span>
                   </div>
                   <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                    <span className="text-slate-500">Centro de Custo:</span>
-                    <span>CC-104 (Expansão Regional Sul)</span>
+                    <span className="text-slate-500">Trecho & Hotel:</span>
+                    <span>São Paulo (CGH) ⇄ Curitiba (CWB) + Hotel Executivo</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-500">Prioridade de Aprovação:</span>
+                    <span className="text-amber-300 font-semibold">Normal (Opções: Baixa, Normal, Alta, Urgente)</span>
+                  </div>
+                  <div className="flex justify-between border-b border-slate-800 pb-1.5">
+                    <span className="text-slate-500">Controle de Custo:</span>
+                    <span>Estimado: R$ 1.850 · Aprovado: R$ 1.620</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Política Aplicável:</span>
-                    <span className="text-emerald-400">Em conformidade com política PME</span>
+                    <span className="text-emerald-400">Em conformidade com política corporativa</span>
                   </div>
                 </div>
               </div>
@@ -188,15 +196,35 @@ export const TechDifferentiatorSection: React.FC = () => {
                 <p className="text-sm text-slate-300">
                   A cotação é apresentada com as melhores alternativas compatíveis e enviada ao gestor responsável para aprovação formal com 1 clique antes da emissão.
                 </p>
-                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 space-y-3">
+
+                {/* 5 Status Badges Showcase */}
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+                    Pendente · Aguardando análise
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
+                    Aprovado · Confirmado
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-400/40">
+                    Rejeitado · Não autorizado
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/40">
+                    Concluído · Viagem realizada
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-slate-700/60 text-slate-300 border border-slate-600">
+                    Cancelado · Cancelado
+                  </span>
+                </div>
+
+                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 space-y-3 mt-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Protocolo #V-2026-88</span>
-                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-emerald-950 text-emerald-300 border border-emerald-800">
-                      Aprovado pela Gerência Financeira
+                    <span className="text-slate-400">Protocolo #V-2026-88 · Departamento Comercial</span>
+                    <span className="px-2 py-0.5 rounded text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">
+                      Aprovado pela Gerência
                     </span>
                   </div>
                   <div className="text-sm font-semibold text-white">
-                    2 opções cotadas · Opção Econômica confirmada dentro da antecedência
+                    2 opções cotadas · Voo + Hotel integrados dentro do teto de custos
                   </div>
                   <div className="text-xs text-slate-400">
                     Vouchers emitidos e encaminhados para o viajante via e-mail e WhatsApp.

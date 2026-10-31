@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
   Search, 
   MessageSquareOff, 
@@ -72,8 +73,12 @@ export const ProblemSection: React.FC = () => {
           {challenges.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div
+              <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 className="bg-white p-6 rounded-lg border border-slate-200/90 hover:border-slate-300 transition-colors shadow-2xs flex flex-col justify-between"
               >
                 <div>
@@ -87,7 +92,7 @@ export const ProblemSection: React.FC = () => {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

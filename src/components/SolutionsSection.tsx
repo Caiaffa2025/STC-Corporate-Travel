@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { 
   Plane, 
   Building, 
@@ -87,7 +88,13 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
         </div>
 
         {/* Feature Visual Spotlight Banner */}
-        <div className="mt-10 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 relative">
+        <motion.div 
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-10 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 relative"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 text-white z-10">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-300">
@@ -115,15 +122,19 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent" />
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* 6 Structured Service Cards (Bento-Grid style with clear numbering) */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => {
+          {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div
+              <motion.div
                 key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
                 className="group p-6 sm:p-7 rounded-xl border border-slate-200/90 bg-slate-50/50 hover:bg-white hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
@@ -158,7 +169,7 @@ export const SolutionsSection: React.FC<SolutionsSectionProps> = ({
                     <span aria-hidden="true">→</span>
                   </button>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

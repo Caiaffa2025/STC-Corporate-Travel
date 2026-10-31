@@ -1,9 +1,11 @@
 import React from 'react';
-import { ArrowRight, Compass, ShieldCheck, UserCheck, Quote, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Compass, ShieldCheck, UserCheck, Quote, Sparkles, Plane } from 'lucide-react';
 import { DEFAULT_IMAGES } from '../assets/images';
 
 interface HeroProps {
   onOpenLeadForm: () => void;
+  onOpenEmployeePortal?: () => void;
   headline?: string;
   subtitle?: string;
   manifesto?: string;
@@ -12,6 +14,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ 
   onOpenLeadForm,
+  onOpenEmployeePortal,
   headline = 'Sua empresa viaja. Nós cuidamos de toda a gestão.',
   subtitle = 'Tecnologia, organização e gestão especializada para empresas que precisam viajar.',
   manifesto = 'Assumimos a gestão das viagens corporativas da sua empresa, desde a solicitação até a reserva, administração e controle financeiro. Tudo centralizado em uma plataforma exclusiva PARA CADA EMPRESA, com acompanhamento e transparência.',
@@ -72,7 +75,12 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Value Proposition, Manifesto & CTAs */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-7 flex flex-col justify-center"
+          >
             {/* Tagline / Kicker com destaque */}
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-600 font-bold mb-3">
               <span className="w-2 h-2 rounded-full bg-amber-500" />
@@ -110,21 +118,31 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             {/* CTAs */}
-            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+              {onOpenEmployeePortal && (
+                <button
+                  onClick={onOpenEmployeePortal}
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-md transition-all shadow-md active:scale-98 cursor-pointer whitespace-nowrap"
+                >
+                  <Plane className="w-4 h-4 text-slate-950" />
+                  <span>Solicitar Minha Viagem</span>
+                </button>
+              )}
+
               <button
                 onClick={onOpenLeadForm}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-all shadow-sm hover:shadow cursor-pointer whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-all shadow-sm hover:shadow cursor-pointer whitespace-nowrap"
               >
-                <span>Solicitar uma proposta</span>
+                <span>Solicitar Proposta</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <a
                 href="#diferenciais-stc"
                 onClick={scrollToSolutions}
-                className="inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md transition-colors whitespace-nowrap"
+                className="inline-flex items-center justify-center px-5 py-3.5 text-sm font-semibold uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200/90 rounded-md transition-colors whitespace-nowrap"
               >
-                Ver os 7 Diferenciais
+                Ver Diferenciais
               </a>
             </div>
 
@@ -166,10 +184,15 @@ export const Hero: React.FC<HeroProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Executive Airport Photography */}
-          <div className="lg:col-span-5 relative">
+          <motion.div 
+            initial={{ opacity: 0, y: 36, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-5 relative"
+          >
             <div className="relative rounded-xl overflow-hidden border border-slate-200 shadow-xl bg-slate-900">
               <img
                 src={heroImage || DEFAULT_IMAGES.heroAirport}
@@ -193,7 +216,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

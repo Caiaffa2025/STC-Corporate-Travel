@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { 
   Laptop, 
   PlaneTakeoff, 
@@ -103,8 +104,12 @@ export const CommercialDifferentialsSection: React.FC<CommercialDifferentialsSec
             const Icon = diff.icon;
             const isFeatured = index === 0; // First item: Plataforma própria com acesso do cliente
             return (
-              <div
+              <motion.div
                 key={diff.number}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 className={`p-5 sm:p-6 rounded-xl border transition-all flex flex-col justify-between ${
                   isFeatured
                     ? 'bg-slate-800/95 border-amber-400/80 shadow-lg ring-1 ring-amber-400/40'
@@ -142,12 +147,18 @@ export const CommercialDifferentialsSection: React.FC<CommercialDifferentialsSec
                     Garantido no escopo STC
                   </span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
 
           {/* Quick summary card linking to Proposal */}
-          <div className="p-6 sm:p-7 rounded-xl border border-amber-400/50 bg-gradient-to-br from-slate-900 to-slate-950 flex flex-col justify-between">
+          <motion.div 
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.55, delay: differentials.length * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="p-6 sm:p-7 rounded-xl border border-amber-400/50 bg-gradient-to-br from-slate-900 to-slate-950 flex flex-col justify-between"
+          >
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
                 Próximo Passo
@@ -169,7 +180,7 @@ export const CommercialDifferentialsSection: React.FC<CommercialDifferentialsSec
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
